@@ -75,6 +75,6 @@ async function fetchSensorData() {
     }
 }
 
-// Ejecutar al cargar y actualizar cada 1 segundo
+// Ejecutar al cargar y actualizar cada 5 segundo
 fetchSensorData();
-setInterval(fetchSensorData, 1000);
+setInterval(fetchSensorData, 5000);
