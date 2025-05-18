@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Monitoreo Sensor</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="card" id="latestCard">
+    <h2>📊 Último Registro</h2>
+    <p><strong>🌡️ Temperatura:</strong> <span id="currentTemp">Cargando...</span></p>
+    <p><strong>💧 Humedad:</strong> <span id="currentHumidity">-</span></p>
+    <p><strong>📐 Ángulo:</strong> <span id="currentAngle">-</span></p>
+    <p><strong>⚖️ Peso:</strong> <span id="currentWeight">-</span></p>
+    <p><strong>📏 Distancia:</strong> <span id="currentDistance">-</span></p>
+    <p id="currentDate" class="date">Última actualización: -</p>
+</div>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Fecha</th>
+        <th>Temperatura (°C)</th>
+        <th>Humedad (%)</th>
+        <th>Ángulo (°)</th>
+        <th>Peso (g)</th>
+        <th>Distancia (cm)</th>
+    </tr>
+    </thead>
+    <tbody id="dataTable"></tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
