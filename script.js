@@ -10,9 +10,18 @@ async function fetchSensorData() {
             return;
         }
 
-        // === Tarjeta: mostrar el dato más reciente ===
+        // === Ordenar por fecha ascendente (de más antiguo a más reciente) ===
+        data.sort((a, b) => a.created_at - b.created_at);
+
+        // === Seleccionar el último registro ===
         const latest = data.at(-1);
+
         const tempActual = latest.temperatura ?? "-";
+        const humedadActual = latest.humedad ?? "-";
+        const anguloActual = latest.angulo ?? "-";
+        const pesoActual = latest.peso ?? "-";
+        const distanciaActual = latest.distancia ?? "-";
+
         const fechaActual = new Date(Number(latest.created_at)).toLocaleString("es-PE", {
             day: "2-digit",
             month: "2-digit",
@@ -23,26 +32,17 @@ async function fetchSensorData() {
             timeZone: "America/Lima"
         });
 
-        const humedadActual = latest.humedad ?? "-";
-        const anguloActual = latest.angulo ?? "-";
-        const pesoActual = latest.peso ?? "-";
-        const distanciaActual = latest.distancia ?? "-";
-
-
+        // === Actualizar tarjeta ===
         document.getElementById("currentTemp").textContent = `${tempActual} °C`;
-        document.getElementById("currentDate").textContent = `Última actualización: ${fechaActual}`;
         document.getElementById("currentHumidity").textContent = `${humedadActual} %`;
         document.getElementById("currentAngle").textContent = `${anguloActual} °`;
         document.getElementById("currentWeight").textContent = `${pesoActual} g`;
         document.getElementById("currentDistance").textContent = `${distanciaActual} cm`;
+        document.getElementById("currentDate").textContent = `Última actualización: ${fechaActual}`;
 
-
-        // === Tabla: limpiar y llenar ===
+        // === Limpiar y llenar tabla ===
         const table = document.getElementById("dataTable");
         table.innerHTML = "";
-
-        // Ordenar por fecha ascendente (más antiguo a más reciente)
-        data.sort((a, b) => a.created_at - b.created_at);
 
         data.forEach((entry, index) => {
             const fecha = new Date(Number(entry.created_at)).toLocaleString("es-PE", {
@@ -57,24 +57,28 @@ async function fetchSensorData() {
 
             const row = document.createElement("tr");
             row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${fecha}</td>
-        <td>${entry.temperatura ?? "-"}</td>
-        <td>${entry.humedad ?? "-"}</td>
-        <td>${entry.angulo ?? "-"}</td>
-        <td>${entry.peso ?? "-"}</td>
-        <td>${entry.distancia ?? "-"}</td>
-      `;
+                <td>${index + 1}</td>
+                <td>${fecha}</td>
+                <td>${entry.temperatura ?? "-"}</td>
+                <td>${entry.humedad ?? "-"}</td>
+                <td>${entry.angulo ?? "-"}</td>
+                <td>${entry.peso ?? "-"}</td>
+                <td>${entry.distancia ?? "-"}</td>
+            `;
             table.appendChild(row);
         });
 
     } catch (error) {
         console.error("Error al obtener los datos:", error);
         document.getElementById("currentTemp").textContent = "Error";
+        document.getElementById("currentHumidity").textContent = "-";
+        document.getElementById("currentAngle").textContent = "-";
+        document.getElementById("currentWeight").textContent = "-";
+        document.getElementById("currentDistance").textContent = "-";
         document.getElementById("currentDate").textContent = "—";
     }
 }
 
-// Ejecutar al cargar y actualizar cada 5 segundo
+// Ejecutar al cargar y actualizar cada 5 segundos
 fetchSensorData();
 setInterval(fetchSensorData, 5000);
